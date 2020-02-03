@@ -9,23 +9,35 @@ WHERE per.empid = pay.empid AND pay.salary = 189170;
 
 CREATE OR REPLACE VIEW query_1 (empid, lname) AS 
 SELECT per.empid, per.lname 
-FROM employee per, payroll pay 
-WHERE per.empid = pay.empid AND pay.salary = 189170;
+FROM employee per FULL OUTER JOIN payroll pay ON per.empid = pay.empid AND pay.salary = 189170 
+WHERE per.empid IS NOT NULL AND pay.empid IS NOT NULL;
 
 CREATE OR REPLACE VIEW query_2 (empid, lname) AS 
 SELECT per.empid, per.lname 
-FROM employee per, payroll pay 
-WHERE per.empid = pay.empid AND pay.salary = 189170;
+FROM employee per
+WHERE EXISTS(
+    SELECT *
+    FROM payroll pay 
+    WHERE per.empid = pay.empid
+    AND pay.salary = 189170
+);
 
 CREATE OR REPLACE VIEW query_3 (empid, lname) AS 
 SELECT per.empid, per.lname 
-FROM employee per, payroll pay 
-WHERE per.empid = pay.empid AND pay.salary = 189170;
+FROM employee per
+WHERE per.empid IN (
+    SELECT pay.empid
+    FROM payroll pay
+    WHERE pay.salary = 189170 
+);
 
 CREATE OR REPLACE VIEW query_4 (empid, lname) AS 
 SELECT per.empid, per.lname 
-FROM employee per, payroll pay 
-WHERE per.empid = pay.empid AND pay.salary = 189170;
+FROM employee per, (
+    SELECT pay.empid
+    FROM payroll pay
+    WHERE pay.salary = 189170) AS pay1  
+WHERE per.empid = pay1.empid;
 
 CREATE OR REPLACE VIEW query_5 (empid, lname) AS 
 SELECT per.empid, per.lname 
@@ -34,8 +46,17 @@ WHERE per.empid = pay.empid AND pay.salary = 189170;
 
 CREATE OR REPLACE VIEW query_slowest (empid, lname) AS 
 SELECT per.empid, per.lname 
-FROM employee per, payroll pay 
-WHERE per.empid = pay.empid AND pay.salary = 189170;
+FROM employee per 
+WHERE NOT EXISTS(
+    SELECT *
+    FROM payroll pay
+    WHERE NOT EXISTS(
+        SELECT *
+        FROM pay
+        WHERE per.empid = pay.empid
+        AND pay.salary = 189170
+    )
+);
 
 -- Indicate the measured time for 1000 executions for each of the queries (replace <time> by the average execution time reported by the Web page)
 -- query_0  <time> ms
