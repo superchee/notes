@@ -41,11 +41,6 @@ WHERE per.empid = pay1.empid;
 
 CREATE OR REPLACE VIEW query_5 (empid, lname) AS 
 SELECT per.empid, per.lname 
-FROM employee per, payroll pay 
-WHERE per.empid = pay.empid AND pay.salary = 189170;
-
-CREATE OR REPLACE VIEW query_slowest (empid, lname) AS 
-SELECT per.empid, per.lname 
 FROM employee per 
 WHERE NOT EXISTS(
     SELECT *
@@ -57,6 +52,12 @@ WHERE NOT EXISTS(
         AND pay.salary = 189170
     )
 );
+
+
+CREATE OR REPLACE VIEW query_slowest (empid, lname) AS 
+SELECT per.empid, per.lname 
+FROM employee per, payroll pay 
+WHERE per.empid = pay.empid AND pay.salary = 189170;
 
 -- Indicate the measured time for 1000 executions for each of the queries (replace <time> by the average execution time reported by the Web page)
 -- query_0  <time> ms
