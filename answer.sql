@@ -56,16 +56,17 @@ WHERE NOT EXISTS(
 
 CREATE OR REPLACE VIEW query_slowest (empid, lname) AS 
 SELECT per.empid, per.lname 
-FROM employee per
-WHERE per.empid NOT IN(
-    SELECT pay.empid
+FROM employee per FULL OUTER JOIN payroll pay ON per.empid = pay.empid
+WHERE NOT EXISTS(
+    SELECT *
     FROM payroll pay
-    WHERE pay.empid NOT IN(
-        SELECT pay.empid
-        FROM employee per FULL OUTER JOIN payroll pay ON per.empid = pay.empid AND pay.salary = 189170 
-        WHERE per.empid IS NOT NULL AND pay.empid IS NOT NULL
+    WHERE NOT EXISTS(
+        SELECT *
+        FROM payroll pay
+        WHERE per.empid = pay.empid
+		AND pay.salary = 189170
     )
-);
+) AND per.empid IS NOT NULL AND pay.empid IS NOT NULL;
 
 
 -- Indicate the measured time for 1000 executions for each of the queries (replace <time> by the average execution time reported by the Web page)
