@@ -68,19 +68,6 @@ WHERE NOT EXISTS(
     )
 ) AND per.empid IS NOT NULL AND pay.empid IS NOT NULL;
 
-CREATE OR REPLACE VIEW query_slowest (empid, lname) AS 
-SELECT per.empid, per.lname 
-FROM employee per FULL CROSS JOIN payroll pay
-WHERE NOT EXISTS(
-    SELECT *
-    FROM payroll pay
-    WHERE NOT EXISTS(
-        SELECT *
-        FROM payroll pay
-        WHERE per.empid = pay.empid
-		AND pay.salary = 189170
-    )
-);
 
 
 
