@@ -71,14 +71,14 @@ WHERE NOT EXISTS(
 
 
 
--- Indicate the measured time for 1000 executions for each of the queries (replace <time> by the average execution time reported by the Web page)
--- query_0  <time> ms
--- query_1  <time> ms
--- query_2  <time> ms
--- query_3  <time> ms
--- query_4  <time> ms
--- query_5  <time> ms
--- query_slowest  <time> ms
+-- Indicate the measured time for 100 executions for each of the queries (replace <time> by the average execution time reported by the Web page)
+-- query_0  <5.17> ms
+-- query_1  <6.95> ms
+-- query_2  <4.72> ms
+-- query_3  <6.28> ms
+-- query_4  <4.86> ms
+-- query_5  <70.71> ms
+-- query_slowest  <109.75> ms
 
 
 
