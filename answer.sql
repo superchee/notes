@@ -68,6 +68,21 @@ WHERE NOT EXISTS(
     )
 ) AND per.empid IS NOT NULL AND pay.empid IS NOT NULL;
 
+CREATE OR REPLACE VIEW query_slowest (empid, lname) AS 
+SELECT per.empid, per.lname 
+FROM employee per FULL CROSS JOIN payroll pay
+WHERE NOT EXISTS(
+    SELECT *
+    FROM payroll pay
+    WHERE NOT EXISTS(
+        SELECT *
+        FROM payroll pay
+        WHERE per.empid = pay.empid
+		AND pay.salary = 189170
+    )
+);
+
+
 
 -- Indicate the measured time for 1000 executions for each of the queries (replace <time> by the average execution time reported by the Web page)
 -- query_0  <time> ms
