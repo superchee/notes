@@ -1,4 +1,0 @@
-Device programming: parse the Gerber file;convert Gerber file to the generic shape object model and draw on views; design and implement the device processes to generate recipes
-AutoRun process: design autorun process flow; develop multi-threads programming to optimize the inspection cycle
-Communications: recieve data from upstream manchine and send data to downstream machine by Ethernet(TCP/IP) and serial communication(RS232)
-Database: 
